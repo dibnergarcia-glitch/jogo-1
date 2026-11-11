@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Neon Racer — Jogo de Corrida 2D</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ================= PALCO EM TELA CHEIA ================= -->
+  <main class="game-wrapper">
+
+    <!-- Canvas: ocupa 100% da janela, em qualquer proporção -->
+    <div class="stage">
+      <canvas id="game" aria-label="Pista de corrida"></canvas>
+
+      <!-- ================= HUD (sobreposto ao jogo) ================= -->
+      <header class="hud">
+        <div class="hud__item">
+          <span class="hud__label">Pontos</span>
+          <span class="hud__value" id="score">0</span>
+        </div>
+        <div class="hud__item hud__item--center">
+          <span class="hud__label">Velocidade</span>
+          <span class="hud__value" id="speed">0 <small>km/h</small></span>
+        </div>
+        <div class="hud__item hud__item--right">
+          <span class="hud__label">Recorde</span>
+          <span class="hud__value" id="best">0</span>
+        </div>
+        <button class="icon-btn" id="btnFullscreen" title="Tela cheia (F)" aria-label="Tela cheia">⛶</button>
+      </header>
+
+      <!-- Telas de sobreposição (início / pausa / game over) -->
+      <div class="overlay" id="overlay">
+        <div class="panel">
+          <h1 class="panel__title" id="overlayTitle">NEON RACER</h1>
+          <p class="panel__text" id="overlayText">
+            Desvie dos carros que descem na pista.<br />
+            Use as <kbd>&larr;</kbd> <kbd>&rarr;</kbd> ou <kbd>A</kbd> <kbd>D</kbd> para mover.
+          </p>
+          <button class="btn" id="btnStart">Jogar</button>
+        </div>
+      </div>
+
+      <!-- Aviso temporário (ex.: escudo ativado) -->
+      <div class="toast" id="toast"></div>
+
+      <!-- Controles de toque (aparecem só em telas de celular) -->
+      <div class="touch-controls">
+        <button class="touch-btn" data-dir="-1" aria-label="Esquerda">&larr;</button>
+        <button class="touch-btn" data-dir="1" aria-label="Direita">&rarr;</button>
+      </div>
+
+      <p class="hint">Pular: <kbd>Espaço</kbd> &nbsp;|&nbsp; Pausar: <kbd>P</kbd> &nbsp;|&nbsp; Reiniciar: <kbd>R</kbd> &nbsp;|&nbsp; Tela cheia: <kbd>F</kbd></p>
+    </div>
+  </main>
+
+  <noscript>
+    <p style="color:#eaf2ff;font:16px sans-serif;padding:24px">
+      Este jogo precisa de JavaScript habilitado. Ative o JavaScript no seu navegador e recarregue a página.
+    </p>
+  </noscript>
+
+  <script src="game.js"></script>
+</body>
+</html>
