@@ -22,7 +22,8 @@
         </div>
         <div class="hud__item hud__item--center">
           <span class="hud__label">Velocidade</span>
-          <span class="hud__value" id="speed">0 <small>km/h</small></span>
+          <span class="hud__value" id="speed"><span id="speedNum">0</span> <small>km/h</small></span>
+          <div class="speed-bar"><i class="speed-bar__fill" id="speedFill"></i></div>
         </div>
         <div class="hud__item hud__item--right">
           <span class="hud__label">Recorde</span>
@@ -37,7 +38,8 @@
           <h1 class="panel__title" id="overlayTitle">NEON RACER</h1>
           <p class="panel__text" id="overlayText">
             Desvie dos carros que descem na pista.<br />
-            Use as <kbd>&larr;</kbd> <kbd>&rarr;</kbd> ou <kbd>A</kbd> <kbd>D</kbd> para mover.
+            Use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> para mover,
+            <kbd>&uarr;</kbd> para acelerar e <kbd>&darr;</kbd> para frear.
           </p>
           <button class="btn" id="btnStart">Jogar</button>
         </div>
@@ -48,11 +50,22 @@
 
       <!-- Controles de toque (aparecem só em telas de celular) -->
       <div class="touch-controls">
-        <button class="touch-btn" data-dir="-1" aria-label="Esquerda">&larr;</button>
-        <button class="touch-btn" data-dir="1" aria-label="Direita">&rarr;</button>
+        <div class="touch-group">
+          <button class="touch-btn" data-key="ArrowLeft" aria-label="Esquerda">&larr;</button>
+          <button class="touch-btn" data-key="ArrowRight" aria-label="Direita">&rarr;</button>
+        </div>
+        <div class="touch-group">
+          <button class="touch-btn touch-btn--brake" data-key="ArrowDown" aria-label="Frear">&darr;</button>
+          <button class="touch-btn touch-btn--gas" data-key="ArrowUp" aria-label="Acelerar">&uarr;</button>
+        </div>
       </div>
 
-      <p class="hint">Pular: <kbd>Espaço</kbd> &nbsp;|&nbsp; Pausar: <kbd>P</kbd> &nbsp;|&nbsp; Reiniciar: <kbd>R</kbd> &nbsp;|&nbsp; Tela cheia: <kbd>F</kbd></p>
+      <p class="hint">
+        Mover: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> &nbsp;|&nbsp;
+        Acelerar: <kbd>&uarr;</kbd> &nbsp;|&nbsp; Frear: <kbd>&darr;</kbd> &nbsp;|&nbsp;
+        Pular: <kbd>Espaço</kbd> &nbsp;|&nbsp; Pausar: <kbd>P</kbd> &nbsp;|&nbsp;
+        Reiniciar: <kbd>R</kbd> &nbsp;|&nbsp; Tela cheia: <kbd>F</kbd>
+      </p>
     </div>
   </main>
 

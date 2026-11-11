@@ -47,6 +47,8 @@ canvas {
   width: 100%;
   height: 100%;
   touch-action: none;        /* impede scroll ao arrastar no celular */
+  will-change: transform;    /* canvas em camada própria: o HUD não é
+                                 repintado a cada quadro */
 }
 
 /* ---------------- HUD (flutuante) ---------------- */
@@ -61,10 +63,12 @@ canvas {
   align-items: center;
   gap: 22px;
   padding: 8px 18px;
-  background: var(--panel);
+  /* Sem backdrop-filter: ele obriga o navegador a refazer o blur do HUD a
+     cada quadro (o canvas de baixo está sempre mudando) — é o que mais
+     pesa em máquinas sem aceleração de hardware. */
+  background: rgba(17, 21, 38, 0.88);
   border: 1px solid rgba(53, 224, 255, 0.28);
   border-radius: 14px;
-  backdrop-filter: blur(8px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   pointer-events: none;       /* o HUD não "rouba" cliques do jogo */
 }
@@ -100,6 +104,64 @@ canvas {
 .hud__value small {
   font-size: 10px;
   opacity: 0.7;
+}
+
+/* Cor da velocidade conforme o que o jogador está fazendo */
+.hud__value[data-state="boost"] {
+  color: #57ffbf;
+}
+
+.hud__value[data-state="brake"] {
+  color: #ffb03a;
+}
+
+/* Barra de velocidade */
+.speed-bar {
+  width: 120px;
+  height: 4px;
+  margin-top: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.speed-bar__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #57ffbf);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* HUD compacto em telas estreitas */
+@media (max-width: 620px) {
+  .hud {
+    gap: 12px;
+    padding: 6px 12px;
+    border-radius: 12px;
+  }
+
+  .hud__label {
+    font-size: 9px;
+  }
+
+  .hud__value {
+    font-size: 16px;
+  }
+
+  .speed-bar {
+    width: 72px;
+    margin-top: 3px;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 28px;
+    font-size: 15px;
+  }
 }
 
 /* Botão de tela cheia */
@@ -244,13 +306,19 @@ canvas {
   right: 0;
   z-index: 3;
   display: none;
+  justify-content: space-between;
   gap: 14px;
   padding: 0 18px;
 }
 
+.touch-group {
+  display: flex;
+  gap: 12px;
+}
+
 .touch-btn {
-  flex: 1;
-  max-width: 160px;
+  width: 84px;
+  max-width: 22vw;
   padding: 16px 0;
   font-size: 26px;
   color: var(--text);
@@ -260,10 +328,32 @@ canvas {
   backdrop-filter: blur(6px);
   cursor: pointer;
   user-select: none;
+  touch-action: none;
 }
 
-.touch-btn:active {
+.touch-btn--gas {
+  border-color: rgba(87, 255, 191, 0.55);
+  color: #57ffbf;
+}
+
+.touch-btn--brake {
+  border-color: rgba(255, 176, 58, 0.55);
+  color: #ffb03a;
+}
+
+.touch-btn:active,
+.touch-btn[data-active="1"] {
   background: rgba(53, 224, 255, 0.3);
+}
+
+.touch-btn--gas:active,
+.touch-btn--gas[data-active="1"] {
+  background: rgba(87, 255, 191, 0.3);
+}
+
+.touch-btn--brake:active,
+.touch-btn--brake[data-active="1"] {
+  background: rgba(255, 176, 58, 0.3);
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -294,6 +384,13 @@ canvas {
 @media (hover: none) and (pointer: coarse) {
   .hint {
     display: none;                     /* no celular os botões de toque bastam */
+  }
+}
+
+/* Telas estreitas: a dica não cabe */
+@media (max-width: 620px) {
+  .hint {
+    display: none;
   }
 }
 
